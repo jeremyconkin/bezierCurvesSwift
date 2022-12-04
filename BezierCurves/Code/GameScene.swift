@@ -7,6 +7,9 @@ class GameScene: SKScene {
     let controlPoint1 = CGPoint(x: -250, y: 100)
     let controlPoint2 = CGPoint(x: 120, y: 210)
 
+    let drawPath = CGMutablePath()
+    var isDrawing = false
+
     var startControlSegmentCircleNode: SKShapeNode?
     var centerControlSegmentCircleNode: SKShapeNode?
     var endControlSegmentCircleNode: SKShapeNode?
@@ -14,6 +17,7 @@ class GameScene: SKScene {
     var endSubcontrolLineNode: SKShapeNode?
     var tertiaryLineNode: SKShapeNode?
     var curveDrawPointNode: SKShapeNode?
+    var curveNode: SKShapeNode?
 
     var lineSegment: LineSegment? {
         didSet {
@@ -31,6 +35,7 @@ class GameScene: SKScene {
         guard let lineSegment = lineSegment else {
             return
         }
+        isDrawing = true
 
         drawLineSegment(segment: lineSegment,
                         lineColor: .white,
@@ -94,6 +99,11 @@ class GameScene: SKScene {
         curveDrawPointNode?.strokeColor = tertiaryColor
         curveDrawPointNode?.fillColor = tertiaryColor
         addChild(curveDrawPointNode!)
+
+        drawPath.move(to: startPoint)
+        curveNode = SKShapeNode(path: drawPath)
+        curveNode?.strokeColor = .white
+        addChild(curveNode!)
     }
 
     func updateStartSubcontrolLineNode() {
@@ -150,6 +160,19 @@ class GameScene: SKScene {
                                           endingPoint: segment2InterpolatedPosition)
         let drawPosition = tertiarySegment.interpolatedPoint(interpolationPercentage: percentageIntoAnimation)
         curveDrawPointNode.position = drawPosition
+        
+        if percentageIntoAnimation >= 1.0 {
+            isDrawing = false
+        }
+    }
+
+    func updateCurveNode() {
+        guard let curveDrawPointNode = curveDrawPointNode else {
+                return
+        }
+
+        drawPath.addLine(to: curveDrawPointNode.position)
+        curveNode?.path = drawPath
     }
 
     func drawLineSegment(segment: LineSegment,
@@ -203,8 +226,11 @@ class GameScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        updateStartSubcontrolLineNode()
-        updateEndSubcontrolLineNode()
-        updateTertiarySubcontrolLineNode()
+        if isDrawing {
+            updateStartSubcontrolLineNode()
+            updateEndSubcontrolLineNode()
+            updateTertiarySubcontrolLineNode()
+            updateCurveNode()
+        }
     }
 }
