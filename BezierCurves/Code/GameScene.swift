@@ -7,7 +7,7 @@ class GameScene: SKScene {
     let controlPoint1 = CGPoint(x: -250, y: 100)
     let controlPoint2 = CGPoint(x: 120, y: 210)
 
-    let drawPath = CGMutablePath()
+    var drawPath = CGMutablePath()
     var isDrawing = false
 
     var startControlSegmentCircleNode: SKShapeNode?
@@ -19,19 +19,16 @@ class GameScene: SKScene {
     var curveDrawPointNode: SKShapeNode?
     var curveNode: SKShapeNode?
 
-    var lineSegment: LineSegment? {
-        didSet {
-            redrawScene()
-        }
-    }
+    var lineSegment: LineSegment?
 
     override func didMove(to view: SKView) {
         lineSegment = LineSegment(startingPoint: startPoint,
                                   endingPoint: endPoint)
     }
 
-    private func redrawScene() {
+    func redrawScene() {
         removeAllChildren()
+        drawPath = CGMutablePath()
         guard let lineSegment = lineSegment else {
             return
         }

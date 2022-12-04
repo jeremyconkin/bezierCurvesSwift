@@ -3,6 +3,8 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
+    
+    private var gameScene: GameScene?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,10 +21,15 @@ class GameViewController: UIViewController {
         return true
     }
 
+    @IBAction func didPressStart() {
+        gameScene?.redrawScene()
+    }
+
 // MARK: - Private methods
 
     private func loadSceneInView(_ view: SKView) {
-        if let scene = SKScene(fileNamed: "GameScene") {
+        if let scene = SKScene(fileNamed: "GameScene") as? GameScene {
+            gameScene = scene
             scene.scaleMode = .aspectFill
             view.presentScene(scene)
         }
