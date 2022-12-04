@@ -15,6 +15,9 @@
 		2512E63D292D86AA00D37BB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2512E63B292D86AA00D37BB8 /* Main.storyboard */; };
 		2512E63F292D86AC00D37BB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2512E63E292D86AC00D37BB8 /* Assets.xcassets */; };
 		2512E642292D86AC00D37BB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2512E640292D86AC00D37BB8 /* LaunchScreen.storyboard */; };
+		2512E64E292E962600D37BB8 /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512E64D292E962600D37BB8 /* LineSegment.swift */; };
+		2512E650293C3ECF00D37BB8 /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512E64F293C3ECF00D37BB8 /* CGFloat+Extensions.swift */; };
+		2512E652293C417F00D37BB8 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512E651293C417F00D37BB8 /* Point.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,10 @@
 		2512E63C292D86AA00D37BB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2512E63E292D86AC00D37BB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2512E641292D86AC00D37BB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2512E64C292E93D300D37BB8 /* BezierCurves.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BezierCurves.entitlements; sourceTree = "<group>"; };
+		2512E64D292E962600D37BB8 /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
+		2512E64F293C3ECF00D37BB8 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
+		2512E651293C417F00D37BB8 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +66,7 @@
 		2512E630292D86AA00D37BB8 /* BezierCurves */ = {
 			isa = PBXGroup;
 			children = (
+				2512E64C292E93D300D37BB8 /* BezierCurves.entitlements */,
 				2512E64B292E8E7F00D37BB8 /* Code */,
 				2512E64A292E8E7100D37BB8 /* Assets */,
 			);
@@ -99,6 +107,9 @@
 				2512E631292D86AA00D37BB8 /* AppDelegate.swift */,
 				2512E637292D86AA00D37BB8 /* GameScene.swift */,
 				2512E639292D86AA00D37BB8 /* GameViewController.swift */,
+				2512E64D292E962600D37BB8 /* LineSegment.swift */,
+				2512E64F293C3ECF00D37BB8 /* CGFloat+Extensions.swift */,
+				2512E651293C417F00D37BB8 /* Point.swift */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -177,8 +188,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2512E638292D86AA00D37BB8 /* GameScene.swift in Sources */,
+				2512E650293C3ECF00D37BB8 /* CGFloat+Extensions.swift in Sources */,
+				2512E652293C417F00D37BB8 /* Point.swift in Sources */,
 				2512E63A292D86AA00D37BB8 /* GameViewController.swift in Sources */,
 				2512E632292D86AA00D37BB8 /* AppDelegate.swift in Sources */,
+				2512E64E292E962600D37BB8 /* LineSegment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +337,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BezierCurves/BezierCurves.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8A95XP7RAN;
@@ -340,9 +355,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = JeremyConkin.BezierCurves;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "2,6";
 			};
 			name = Debug;
 		};
@@ -351,6 +368,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BezierCurves/BezierCurves.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8A95XP7RAN;
@@ -368,9 +386,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = JeremyConkin.BezierCurves;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "2,6";
 			};
 			name = Release;
 		};
