@@ -13,6 +13,7 @@ class GameScene: SKScene {
     var startSubcontrolLineNode: SKShapeNode?
     var endSubcontrolLineNode: SKShapeNode?
     var tertiaryLineNode: SKShapeNode?
+    var curveDrawPointNode: SKShapeNode?
 
     var lineSegment: LineSegment? {
         didSet {
@@ -84,8 +85,15 @@ class GameScene: SKScene {
         addChild(endSubcontrolLineNode!)
 
         tertiaryLineNode = SKShapeNode(path: path1)
-        tertiaryLineNode?.strokeColor = .magenta
         addChild(tertiaryLineNode!)
+
+        let tertiaryColor: SKColor = .magenta
+        tertiaryLineNode?.strokeColor = tertiaryColor
+        curveDrawPointNode = SKShapeNode(circleOfRadius: 5)
+        curveDrawPointNode?.position = startPoint
+        curveDrawPointNode?.strokeColor = tertiaryColor
+        curveDrawPointNode?.fillColor = tertiaryColor
+        addChild(curveDrawPointNode!)
     }
 
     func updateStartSubcontrolLineNode() {
@@ -116,7 +124,8 @@ class GameScene: SKScene {
         guard let startControlSegmentCircleNode = startControlSegmentCircleNode,
             let endControlSegmentCircleNode = endControlSegmentCircleNode,
             let centerControlSegmentCircleNode = centerControlSegmentCircleNode,
-            let tertiaryLineNode = tertiaryLineNode else {
+            let tertiaryLineNode = tertiaryLineNode,
+            let curveDrawPointNode = curveDrawPointNode else {
             return
         }
 
@@ -136,6 +145,11 @@ class GameScene: SKScene {
         path.move(to: segment1InterpolatedPosition)
         path.addLine(to: segment2InterpolatedPosition)
         tertiaryLineNode.path = path
+
+        let tertiarySegment = LineSegment(startingPoint: segment1InterpolatedPosition,
+                                          endingPoint: segment2InterpolatedPosition)
+        let drawPosition = tertiarySegment.interpolatedPoint(interpolationPercentage: percentageIntoAnimation)
+        curveDrawPointNode.position = drawPosition
     }
 
     func drawLineSegment(segment: LineSegment,
