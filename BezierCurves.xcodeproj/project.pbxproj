@@ -105,10 +105,10 @@
 			isa = PBXGroup;
 			children = (
 				2512E631292D86AA00D37BB8 /* AppDelegate.swift */,
+				2512E64F293C3ECF00D37BB8 /* CGFloat+Extensions.swift */,
 				2512E637292D86AA00D37BB8 /* GameScene.swift */,
 				2512E639292D86AA00D37BB8 /* GameViewController.swift */,
 				2512E64D292E962600D37BB8 /* LineSegment.swift */,
-				2512E64F293C3ECF00D37BB8 /* CGFloat+Extensions.swift */,
 				2512E651293C417F00D37BB8 /* Point.swift */,
 			);
 			path = Code;

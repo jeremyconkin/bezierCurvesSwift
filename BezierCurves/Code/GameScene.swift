@@ -2,11 +2,17 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+    let startPoint = CGPoint(x: -300, y: -200)
+    let endPoint = CGPoint(x: 300, y: 30)
+    let controlPoint1 = CGPoint(x: -250, y: 100)
+    let controlPoint2 = CGPoint(x: 120, y: 210)
+
     var startControlSegmentCircleNode: SKShapeNode?
     var centerControlSegmentCircleNode: SKShapeNode?
     var endControlSegmentCircleNode: SKShapeNode?
     var startSubcontrolLineNode: SKShapeNode?
     var endSubcontrolLineNode: SKShapeNode?
+    var tertiaryLineNode: SKShapeNode?
 
     var lineSegment: LineSegment? {
         didSet {
@@ -15,8 +21,8 @@ class GameScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-        lineSegment = LineSegment(startingPoint: CGPoint(x: -300, y: -200),
-                                  endingPoint: CGPoint(x: 300, y: 30))
+        lineSegment = LineSegment(startingPoint: startPoint,
+                                  endingPoint: endPoint)
     }
 
     private func redrawScene() {
@@ -31,7 +37,6 @@ class GameScene: SKScene {
                         dotStrokeColor: .blue,
                         isDashed: true)
 
-        let controlPoint1 = CGPoint(x: -250, y: 100)
         let controlPoint1Segment = LineSegment(startingPoint: lineSegment.startingPoint,
                                                endingPoint: controlPoint1)
         drawLineSegment(segment: controlPoint1Segment,
@@ -39,7 +44,6 @@ class GameScene: SKScene {
                         dotFillColor: .clear,
                         dotStrokeColor: .blue)
 
-        let controlPoint2 = CGPoint(x: 120, y: 210)
         let controlPoint2Segment = LineSegment(startingPoint: lineSegment.endingPoint,
                                                endingPoint: controlPoint2)
         drawLineSegment(segment: controlPoint2Segment,
@@ -78,6 +82,10 @@ class GameScene: SKScene {
         endSubcontrolLineNode = SKShapeNode(path: path2)
         endSubcontrolLineNode?.strokeColor = .green
         addChild(endSubcontrolLineNode!)
+
+        tertiaryLineNode = SKShapeNode(path: path1)
+        tertiaryLineNode?.strokeColor = .magenta
+        addChild(tertiaryLineNode!)
     }
 
     func updateStartSubcontrolLineNode() {
@@ -102,6 +110,32 @@ class GameScene: SKScene {
         path.move(to: centerControlSegmentCircleNode.position)
         path.addLine(to: endControlSegmentCircleNode.position)
         endSubcontrolLineNode.path = path
+    }
+
+    func updateTertiarySubcontrolLineNode() {
+        guard let startControlSegmentCircleNode = startControlSegmentCircleNode,
+            let endControlSegmentCircleNode = endControlSegmentCircleNode,
+            let centerControlSegmentCircleNode = centerControlSegmentCircleNode,
+            let tertiaryLineNode = tertiaryLineNode else {
+            return
+        }
+
+        let controlSegment1 = controlPoint1 - startPoint
+        let controlSegment1MagnitudeSquared = (controlSegment1.x * controlSegment1.x) + (controlSegment1.y * controlSegment1.y)
+        let startNodeSegmentPassedStart = startControlSegmentCircleNode.position - startPoint
+        let startNodeTravelDistanceSquared = (startNodeSegmentPassedStart.x * startNodeSegmentPassedStart.x) + (startNodeSegmentPassedStart.y * startNodeSegmentPassedStart.y)
+        let percentageIntoAnimation = (startNodeTravelDistanceSquared / controlSegment1MagnitudeSquared).clamped(0 ... 1)
+        
+        let segment1 = LineSegment(startingPoint: startControlSegmentCircleNode.position,
+                                   endingPoint: centerControlSegmentCircleNode.position)
+        let segment2 = LineSegment(startingPoint: centerControlSegmentCircleNode.position,
+                                   endingPoint: endControlSegmentCircleNode.position)
+        let segment1InterpolatedPosition = segment1.interpolatedPoint(interpolationPercentage: percentageIntoAnimation)
+        let segment2InterpolatedPosition = segment2.interpolatedPoint(interpolationPercentage: percentageIntoAnimation)
+        let path = CGMutablePath();
+        path.move(to: segment1InterpolatedPosition)
+        path.addLine(to: segment2InterpolatedPosition)
+        tertiaryLineNode.path = path
     }
 
     func drawLineSegment(segment: LineSegment,
@@ -157,5 +191,6 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         updateStartSubcontrolLineNode()
         updateEndSubcontrolLineNode()
+        updateTertiarySubcontrolLineNode()
     }
 }
